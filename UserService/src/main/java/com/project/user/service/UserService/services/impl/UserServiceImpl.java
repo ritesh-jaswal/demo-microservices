@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService
         List<User> usersWithRatingsAndHotels = users.stream().peek(user ->
         {
             // Fetch ratings for the user
-            Rating[] ratingsOfUser = restTemplate.getForObject("http://localhost:8083/ratings/users/" + user.getUserId(), Rating[].class);
+            Rating[] ratingsOfUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/" + user.getUserId(), Rating[].class);
             assert ratingsOfUser != null;
             List<Rating> ratings = Arrays.stream(ratingsOfUser).toList();
 
             // Fetch hotel details for each rating
             List<Rating> ratingList = ratings.stream().peek(rating -> {
                 // API call to hotel service to get the hotel
-                ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://localhost:8082/hotels/" + rating.getHotelId(), Hotel.class);
+                ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/" + rating.getHotelId(), Hotel.class);
                 Hotel hotel = forEntity.getBody();
 
                 // Set the hotel to rating
@@ -71,14 +71,14 @@ public class UserServiceImpl implements UserService
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","UserId",userId));
 
         // fetch rating of the above  user from RATING SERVICE
-        Rating[] ratingsOfUser = restTemplate.getForObject("http://localhost:8083/ratings/users/"+user.getUserId(),Rating[].class);
+        Rating[] ratingsOfUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getUserId(),Rating[].class);
         assert ratingsOfUser != null;
         List<Rating> ratings = Arrays.stream(ratingsOfUser).toList();
 
         List<Rating> ratingList = ratings.stream().peek(rating ->
         {
             //api call to hotel service to get the hotel
-            ResponseEntity<Hotel>forEntity = restTemplate.getForEntity("http://localhost:8082/hotels/"+rating.getHotelId(), Hotel.class);
+            ResponseEntity<Hotel>forEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
             Hotel hotel = forEntity.getBody();
 
             //set the hotel to rating
