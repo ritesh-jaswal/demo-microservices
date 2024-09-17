@@ -4,5 +4,3 @@ spring:
       - optional:configserver:http://localhost:8085
   profiles:
     active: user
-
-#  TO CHANGE THE DIRECTORY GETTING SET UP BY GIT CONFIG SERVER
