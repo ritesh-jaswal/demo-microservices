@@ -1,6 +1,52 @@
+server:
+  port: 8081
+
 spring:
-  config:
-    import:
-      - optional:configserver:http://localhost:8085
-  profiles:
-    active: user
+  application:
+    name: USER-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices_user
+    username: root
+    password: Testing@4321
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+    config:
+      enabled: false  # Disable Spring Cloud Config
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-75906175.okta.com/oauth2/default
+      client:
+        registration:
+          my-internal-client:
+            provider: okta
+            authorization-grant-type: client_credentials
+            scope: internal
+            client-id: 0oajql8d9i0F1eaBd5d7
+            client-secret: b_qQnD-9kHjUt-KEkY9m7FCeVT5EzatGp4hOFJhxfztCBYN3zKRwMjSxDHLKGa10
+        provider:
+          okta:
+            issuer-uri: https://dev-75906175.okta.com/oauth2/default
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+okta:
+  oauth2:
+    issuer: https://dev-75906175.okta.com/oauth2/default
+    audience: api://default
