@@ -5,12 +5,12 @@ import com.project.user.service.UserService.entities.Rating;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "RATING-SERVICE")
+@FeignClient(name = "RATING")
 public interface RatingService
 {
 //    GET
-    @GetMapping("/ratings/{ratingId}")
-    Rating getRating(@PathVariable("ratingId") String ratingId);
+//    @GetMapping("/ratings/{ratingId}")
+//    Rating getRating(@PathVariable("ratingId") String ratingId);
 
 //    POST
 //    @PostMapping("/ratings")
