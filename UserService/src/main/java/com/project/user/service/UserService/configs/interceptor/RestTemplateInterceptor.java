@@ -1,5 +1,6 @@
 package com.project.user.service.UserService.configs.interceptor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -12,6 +13,7 @@ import java.io.IOException;
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor
 {
 
+    @Autowired
     private OAuth2AuthorizedClientManager manager;
 
     public RestTemplateInterceptor(OAuth2AuthorizedClientManager manager)
@@ -26,7 +28,7 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor
                 manager.authorize(OAuth2AuthorizeRequest.withClientRegistrationId("my-internal-client").principal("internal").build())
                         .getAccessToken().getTokenValue();
 
-        request.getHeaders().add("Authorization","Bearer"+token);
+        request.getHeaders().add("Authorization","Bearer "+token);
         return execution.execute(request,body);
     }
 }
